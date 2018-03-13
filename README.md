@@ -26,7 +26,9 @@ Set of common GEMBS commands mapping a folder for the data output.
 
 1. Index
 
-    singularity run --bind /home/user/myfolder:/data/ gemBS.simg index -i /data/folder_reference/reference.fa
+```
+singularity run --bind /home/user/myfolder:/data/ gemBS.simg index -i /data/folder_reference/reference.fa
+```    
 
 2. Create JSON Configuration file
 
