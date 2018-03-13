@@ -32,41 +32,59 @@ singularity run --bind /home/user/myfolder:/data/ gemBS.simg index -i /data/fold
 
 2. Create JSON Configuration file
 
-    singularity run --bind /home/user/myfolder:/data/ gemBS.simg prepare-config -t metadata.csv -j /data/metadata.json
+```
+singularity run --bind /home/user/myfolder:/data/ gemBS.simg prepare-config -t metadata.csv -j /data/metadata.json
+```
 
 3. Mapping
 
-    singularity run --bind /home/user/myfolder:/data/ gemBS.simg mapping -I folder_reference/reference.BS.gem -f flowcell_index_lane -j metadata.json -i ./fastq/ -o /data/mappings/ -t 2 -p
+```
+singularity run --bind /home/user/myfolder:/data/ gemBS.simg mapping -I folder_reference/reference.BS.gem -f flowcell_index_lane -j metadata.json -i ./fastq/ -o /data/mappings/ -t 2 -p
+```
 
 4. Merging mappings
 
-    singularity run --bind /home/user/myfolder:/data/ gemBS.simg merging-sample -i ./mappings/ -j metadata.json -s test -t 2 -o /data/sample_mappings/ -d /data/tmp/
+```
+singularity run --bind /home/user/myfolder:/data/ gemBS.simg merging-sample -i ./mappings/ -j metadata.json -s test -t 2 -o /data/sample_mappings/ -d /data/tmp/
+```
 
 5. Variant and Methylation Calling
 
-    singularity run --bind /home/user/myfolder:/data/ gemBS.simg bscall -r folder_reference/reference.fa -e Species -s test -c chr1 -i ./sample_mappings/test.bam -o /data/chr_snp_calls/
+```
+singularity run --bind /home/user/myfolder:/data/ gemBS.simg bscall -r folder_reference/reference.fa -e Species -s test -c chr1 -i ./sample_mappings/test.bam -o /data/chr_snp_calls/
 
-    singularity run --bind /home/user/myfolder:/data/ gemBS.simg bscall -r folder_reference/reference.fa -e Species -s test -c chr2 -i ./sample_mappings/test.bam -o /data/chr_snp_calls/
+singularity run --bind /home/user/myfolder:/data/ gemBS.simg bscall -r folder_reference/reference.fa -e Species -s test -c chr2 -i ./sample_mappings/test.bam -o /data/chr_snp_calls/
+```
 
 6. Concatenation of calls
 
-    singularity run --bind /home/user/myfolder:/data/ gemBS.simg bscall-concatenate -s test -l ./chr_snp_calls/chr1.bcf ./chr_snp_calls/chr2.bcf -o /data/merged_calls/
+```
+singularity run --bind /home/user/myfolder:/data/ gemBS.simg bscall-concatenate -s test -l ./chr_snp_calls/chr1.bcf ./chr_snp_calls/chr2.bcf -o /data/merged_calls/
+```
 
 7. Methylation Filtering
 
-    singularity run --bind /home/user/myfolder:/data/ gemBS.simg methylation-filtering -b ./merged_calls/ -o /data/filtered_meth_calls/
+```
+singularity run --bind /home/user/myfolder:/data/ gemBS.simg methylation-filtering -b ./merged_calls/ -o /data/filtered_meth_calls/
+```
 
 8. Mapping Report
 
-    singularity run --bind /home/user/myfolder:/data/ gemBS.simg bsMap-report -j metadata.json -i ./mappings/ -n TEST_GEMBS -o /data/reports/mappings/
+```
+singularity run --bind /home/user/myfolder:/data/ gemBS.simg bsMap-report -j metadata.json -i ./mappings/ -n TEST_GEMBS -o /data/reports/mappings/
+```
 
 9. Variants Report
 
-    singularity run --bind /home/user/myfolder:/data/ gemBS.simg variants-report -l chr1 chr2 -j metadata.json -i ./chr_snp_calls/ -n TEST_GEMBS -o /data/reports/variants/
+```
+singularity run --bind /home/user/myfolder:/data/ gemBS.simg variants-report -l chr1 chr2 -j metadata.json -i ./chr_snp_calls/ -n TEST_GEMBS -o /data/reports/variants/
+```
 
 10. CpG Report
 
-    singularity run --bind /home/user/myfolder:/data/ gemBS.simg cpg-bigwig -c ./filtered_meth_calls/test_cpg.txt.gz -l folder_reference/chr.len -n TEST_GEMBS -o /data/Tracks/
+```
+singularity run --bind /home/user/myfolder:/data/ gemBS.simg cpg-bigwig -c ./filtered_meth_calls/test_cpg.txt.gz -l folder_reference/chr.len -n TEST_GEMBS -o /data/Tracks/
+```
 
 ## Licensing
 
